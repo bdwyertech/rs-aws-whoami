@@ -38,14 +38,42 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = aws_config::load_defaults(BehaviorVersion::latest()).await;
     let client = Client::new(&config);
 
-    let resp = client.get_caller_identity().send().await?;
+    match client.get_caller_identity().send().await {
+        Ok(resp) => {
+            let output = json!({
+                "UserId": resp.user_id(),
+                "Account": resp.account(),
+                "Arn": resp.arn()
+            });
+            println!("{}", serde_json::to_string_pretty(&output)?);
+        }
+        Err(e) => {
+            let error_str = format!("{:?}", e);
+            
+            // Extract code from ErrorMetadata
+            let code = if let Some(start) = error_str.find("code: Some(\"") {
+                let start = start + 12;
+                if let Some(end) = error_str[start..].find("\"") {
+                    Some(error_str[start..start + end].to_string())
+                } else { None }
+            } else { None };
+            
+            // Extract message from ErrorMetadata
+            let message = if let Some(start) = error_str.find("message: Some(\"") {
+                let start = start + 15;
+                if let Some(end) = error_str[start..].find("\"") {
+                    error_str[start..start + end].to_string()
+                } else { "Unknown error".to_string() }
+            } else { "Unknown error".to_string() };
 
-    let output = json!({
-        "UserId": resp.user_id(),
-        "Account": resp.account(),
-        "Arn": resp.arn()
-    });
-
-    println!("{}", serde_json::to_string_pretty(&output)?);
+            let error_output = json!({
+                "error": true,
+                "message": message,
+                "code": code
+            });
+            eprintln!("{}", serde_json::to_string_pretty(&error_output)?);
+            std::process::exit(1);
+        }
+    }
     Ok(())
 }
