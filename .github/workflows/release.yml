@@ -8,10 +8,11 @@ on:
 
 # You might not need all of this...
 permissions:
+  attestations: write
   contents: write
-  packages: write
-  issues: write
   id-token: write
+  issues: write
+  packages: write
 
 jobs:
   goreleaser:
