@@ -24,8 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if cli.version {
         let git_commit = built_info::GIT_COMMIT_HASH_SHORT;
-        let release_ver =
-            std::env::var("RELEASE_VER").unwrap_or_else(|_| built_info::PKG_VERSION.to_string());
+        let release_ver = built_info::PKG_VERSION;
         let release_date = built_info::BUILT_TIME_UTC;
 
         println!("aws-whoami");
