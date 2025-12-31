@@ -22,7 +22,7 @@ serde_json = "1.0"
 clap = { version = "4.0", features = ["derive"] }
 
 [build-dependencies]
-built = "0.7"
+built = { version = "0.8", features = ["cargo-lock", "dependency-tree", "git2", "chrono", "semver"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 libz-sys = "1.1.23"
