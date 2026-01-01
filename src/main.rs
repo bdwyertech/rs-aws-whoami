@@ -1,4 +1,6 @@
-use clap::{Parser, Subcommand};
+use clap::{CommandFactory, Parser, Subcommand};
+use clap_complete::{generate, Shell};
+use std::io;
 
 mod commands;
 
@@ -27,6 +29,11 @@ enum Commands {
         #[arg(long, help = "Execute whoami for each profile")]
         whoami: bool,
     },
+    #[command(about = "Generate shell completions")]
+    Completions {
+        #[arg(help = "Shell to generate completions for")]
+        shell: Shell,
+    },
 }
 
 #[tokio::main]
@@ -48,6 +55,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     match cli.command {
         Some(Commands::ListProfiles { whoami }) => {
             commands::list_profiles::execute(whoami).await?;
+        }
+        Some(Commands::Completions { shell }) => {
+            let mut cmd = Cli::command();
+            generate(shell, &mut cmd, "aws-whoami", &mut io::stdout());
         }
         None => {
             commands::whoami::execute().await?;

@@ -396,6 +396,7 @@ dependencies = [
  "aws-types",
  "built",
  "clap",
+ "clap_complete",
  "libz-sys",
  "serde_json",
  "tokio",
@@ -526,6 +527,15 @@ checksum = "d76b5d13eaa18c901fd2f7fca939fefe3a0727a953561fefdf3b2922b8569d00"
 dependencies = [
  "anstyle",
  "clap_lex",
+]
+
+[[package]]
+name = "clap_complete"
+version = "4.5.64"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c0da80818b2d95eca9aa614a30783e42f62bf5fdfee24e68cfb960b071ba8d1"
+dependencies = [
+ "clap",
 ]
 
 [[package]]
