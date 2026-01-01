@@ -9,7 +9,7 @@ repository = "https://github.com/bdwyertech/rs-aws-whoami"
 strip = true
 lto = true
 codegen-units = 1
-opt-level = "s"
+opt-level = "s" # use 3 for performance-critical applications
 
 # The profile that 'dist' will build with
 [profile.dist]
