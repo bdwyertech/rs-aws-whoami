@@ -30,4 +30,4 @@ clap_complete = "4.0"
 built = { version = "0.8", features = ["cargo-lock", "dependency-tree", "git2", "chrono", "semver"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
-libz-sys = "1.1.23"
+libz-sys = "1.1.29"
