@@ -38,6 +38,9 @@ jobs:
           toolchain: stable
           cache: true
 
+      - name: Install dependencies
+        run: apt-get update && apt-get install -y gettext-base
+
       - name: Install Cosign
         uses: sigstore/cosign-installer@v4.1.2
 
